@@ -3,8 +3,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const whitelist = [
-    'http://localhost:3000',
+    // 'http://localhost:3000',
     'https://mellow-donut-c93449.netlify.app/',
+    'https://aplug-dashboard.vercel.app'
   ];
 
   const app = await NestFactory.create(AppModule);
