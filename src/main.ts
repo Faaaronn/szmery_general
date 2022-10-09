@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const whitelist = [
     // 'http://localhost:3000',
     'https://mellow-donut-c93449.netlify.app/',
-    'https://aplug-dashboard.vercel.app'
+    'https://aplug-dashboard.vercel.app',
   ];
 
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,7 @@ async function bootstrap() {
       }
     },
   });
-  app.use(bodyParser({limit: '50mb'}));
+  app.use(bodyParser.json({ limit: '50mb' }));
   await app.listen(process.env.PORT || 900);
 }
 bootstrap();
