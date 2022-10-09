@@ -18,6 +18,7 @@ async function bootstrap() {
       }
     },
   });
+  app.use(bodyParser({limit: '50mb'}));
   await app.listen(process.env.PORT || 900);
 }
 bootstrap();
