@@ -42,7 +42,7 @@ export class ContractsService {
 
       await browser.close();
 
-      contracts.push({ content: pdf, name: contract.uid });
+      contracts.push({ content: pdf, name: `${contract.uid}.pdf` });
     }
     return contracts;
   }
@@ -169,7 +169,7 @@ export class ContractsService {
                 <h1>UMOWA KUPNA SPRZEDAZY</h1>
                 <h5>z adnotacją o dalszej odsprzedaży prowizyjnej</h5>
                 <div class="strony">
-                    <p>Zawarta ${date
+                    <p>Zawarta ${new Date()
                       .toISOString()
                       .slice(
                         0,
