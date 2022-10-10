@@ -31,7 +31,7 @@ export class ContractsService {
     const contracts = [];
     const browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
-      headless: true,
+      // headless: true,
     });
     const page = await browser.newPage();
     for (const contract of contractData) {

@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { CompressionService } from 'src/compression/compression.service';
+import { MailerService } from 'src/mailer/mailer.service';
 import { ContractsService } from './contracts.service';
 import { ContractDto } from './dto/contract.dto';
 
@@ -9,6 +10,7 @@ export class ContractsController {
   constructor(
     private readonly contractsService: ContractsService,
     private readonly compressionService: CompressionService,
+    private readonly mailerService: MailerService,
   ) {}
 
   @Post()
@@ -89,4 +91,6 @@ export class ContractsController {
 
     res.end(zippedContracts);
   }
+
+  // @Post('/send-via-email')
 }

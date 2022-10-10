@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ContractsModule } from './contracts/contracts.module';
 import { CompressionModule } from './compression/compression.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
-  imports: [ContractsModule, CompressionModule],
+  imports: [ContractsModule, CompressionModule, MailerModule],
   controllers: [AppController],
   providers: [AppService],
 })
