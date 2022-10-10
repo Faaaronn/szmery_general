@@ -41,40 +41,72 @@ export class ContractsController {
     @Res() res: Response,
     @Body() contractData: ContractDto[],
   ) {
+    res.send({
+      message:
+        'Rozpoczynam generację pdfa. W ciągu kilku minut powinieneś otrzymać go na maila.',
+    });
     const contractArray = await this.contractsService.generateContractsForZip(
       contractData,
     );
     const zippedContracts = await this.compressionService.zipFiles(
       contractArray,
     );
-    res.set({
-      'Content-Type': 'application/zip',
-      'Content-Disposition': `attachment; filename=aplugks.zip`,
-      'Content-Length': zippedContracts.length,
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      Pragma: 'no-cache',
-      Expires: 0,
-    });
+    const emailResult = await this.mailerService.sendMessage(
+      process.env.TEAM_EMAIL,
+      'APLUG-umowy-ks.pdf',
+      zippedContracts,
+    );
 
-    res.end(zippedContracts);
+    console.error(emailResult);
+    await this.mailerService.sendDebugMessage(
+      'zip',
+      JSON.stringify(emailResult),
+    );
+    // res.set({
+    //   'Content-Type': 'application/zip',
+    //   'Content-Disposition': `attachment; filename=aplugks.zip`,
+    //   'Content-Length': zippedContracts.length,
+    //   'Cache-Control': 'no-cache, no-store, must-revalidate',
+    //   Pragma: 'no-cache',
+    //   Expires: 0,
+    // });
+
+    // res.end(zippedContracts);
   }
 
   @Post('/merge')
   async mergePDFs(@Res() res: Response, @Body() contractData: any) {
-    const contracts = await this.contractsService.mergeContracts(contractData);
-    res.set({
-      // pdf
-      'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename=aplugks.pdf`,
-      'Content-Length': contracts.length,
-      'Access-Control-Expose-Headers': 'Content-Disposition',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      Pragma: 'no-cache',
-      Expires: 0,
+    res.send({
+      message:
+        'Rozpoczynam generację pdfa. W ciągu kilku minut powinieneś otrzymać go na maila.',
     });
+    const contracts = await this.contractsService.mergeContracts(contractData);
 
-    res.end(contracts);
+    const emailResult = await this.mailerService.sendMessage(
+      process.env.TEAM_EMAIL,
+      'APLUG-umowy-ks.pdf',
+      contracts,
+    );
+    console.error(emailResult);
+    await this.mailerService.sendDebugMessage(
+      'merge',
+      JSON.stringify(emailResult),
+    );
+
+    // res.set({
+    //   // pdf
+    //   'Content-Type': 'application/pdf',
+    //   'Content-Disposition': `attachment; filename=aplugks.pdf`,
+    //   'Content-Length': contracts.length,
+    //   'Access-Control-Expose-Headers': 'Content-Disposition',
+    //   'Cache-Control': 'no-cache, no-store, must-revalidate',
+    //   Pragma: 'no-cache',
+    //   Expires: 0,
+    // });
+
+    // res.end(contracts);
   }
+
   @Post('/zip')
   async zipPDFs(@Res() res: Response, @Body() contractData: any) {
     const zippedContracts = await this.compressionService.zipFiles(

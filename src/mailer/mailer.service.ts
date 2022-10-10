@@ -55,8 +55,10 @@ export class MailerService {
     }
   }
 
-  async sendPlainEmail(
+  async sendMessageToAplug(
     email: string,
+    filename: string,
+    content: any,
   ): Promise<void | { code: string; message: string }> {
     const message = {
       from: {
@@ -67,7 +69,36 @@ export class MailerService {
       subject:
         'Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ',
       text: '',
-      html: 'ffff',
+      html: '',
+      attachments: [
+        {
+          filename: filename,
+          // content: content,
+          content: Buffer.from(content, 'base64'),
+        },
+      ],
+    };
+    try {
+      await this.transporter.sendMail(message);
+    } catch (err: unknown) {
+      //@ts-expect-error głupi ts
+      const { code, message } = err;
+      return { code, message };
+    }
+  }
+  async sendDebugMessage(
+    origin: string,
+    errorMessage: string,
+  ): Promise<void | { code: string; message: string }> {
+    const message = {
+      from: {
+        name: 'APLUG sp. z o.o.',
+        address: process.env.EMAIL_FROM as string,
+      },
+      to: process.env.DEBUG_EMAIL,
+      subject: `Błąd wysyłania plików z funkcji ${origin}`,
+      text: '',
+      html: `${errorMessage}`,
     };
     try {
       await this.transporter.sendMail(message);
