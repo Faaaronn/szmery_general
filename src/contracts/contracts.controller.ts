@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { CompressionService } from 'src/compression/compression.service';
 import { MailerService } from 'src/mailer/mailer.service';
@@ -92,26 +92,22 @@ export class ContractsController {
     res.end(zippedContracts);
   }
 
-  // @Post('/send-via-email')
+  @Post('/issue-and-send/:email')
+  async issueAndSend(
+    @Res() res: Response,
+    @Param() email: string,
+    @Body() contractData: ContractDto[],
+  ) {
+    res.send({ message: 'Proces rozpoczęty' });
+    const contractArray = await this.contractsService.generateContracts(
+      contractData,
+    );
+    const contracts = await this.contractsService.mergeContracts(contractArray);
 
-  @Post('/send')
-  async sendEmail() {
-    let counter = 1;
-    const interval = setInterval(() => {
-      console.log(counter);
-      counter++;
-    }, 1000);
-    setTimeout(async () => {
-      clearInterval(interval);
-      await this.mailerService.sendPlainEmail('jakubjansojecki@gmail.com');
-    }, 45000);
-
-    return { mes: 'D' };
-  }
-
-  @Post('/send-immediate')
-  async sendImmediately() {
-    await this.mailerService.sendPlainEmail('jakubjansojecki@gmail.com');
-    return { mes: 'A' };
+    await this.mailerService.sendMessage(
+      email,
+      'APLUG-umowy-ks.pdf',
+      contracts,
+    );
   }
 }
