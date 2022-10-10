@@ -95,19 +95,22 @@ export class ContractsController {
   @Post('/issue-and-send/:email')
   async issueAndSend(
     @Res() res: Response,
-    @Param() email: string,
+    @Param() email: any,
     @Body() contractData: ContractDto[],
   ) {
     res.send({ message: 'Proces rozpoczęty' });
     const contractArray = await this.contractsService.generateContracts(
       contractData,
     );
+    console.log('Wygenerowano umowy!');
     const contracts = await this.contractsService.mergeContracts(contractArray);
-
-    await this.mailerService.sendMessage(
-      email,
+    console.log('Połączono umowy!');
+    const emailResult = await this.mailerService.sendMessage(
+      email.email,
       'APLUG-umowy-ks.pdf',
       contracts,
     );
+    console.log(emailResult);
+    console.log('Wysłano maila z umowami!');
   }
 }

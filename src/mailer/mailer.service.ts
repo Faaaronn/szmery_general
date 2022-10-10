@@ -42,7 +42,7 @@ export class MailerService {
         {
           filename: filename,
           // content: content,
-          content: new Buffer(content, 'base64'),
+          content: Buffer.from(content, 'base64'),
         },
       ],
     };
