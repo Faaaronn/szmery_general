@@ -93,4 +93,15 @@ export class ContractsController {
   }
 
   // @Post('/send-via-email')
+
+  @Post('/send')
+  async sendEmail() {
+    setTimeout(async () => {
+      const email = await this.mailerService.sendPlainEmail(
+        'jakubjansojecki@gmail.com',
+      );
+    }, 45000);
+
+    return { mes: 'D' };
+  }
 }
