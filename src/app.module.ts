@@ -5,8 +5,6 @@ import { ContractsModule } from './contracts/contracts.module';
 import { CompressionModule } from './compression/compression.module';
 import { MailerModule } from './mailer/mailer.module';
 import { ConfigModule } from '@nestjs/config';
-import { SocketModule } from './socket/socket.module';
-import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -14,9 +12,8 @@ import { AppGateway } from './app.gateway';
     CompressionModule,
     MailerModule,
     ConfigModule.forRoot(),
-    SocketModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService],
 })
 export class AppModule {}
