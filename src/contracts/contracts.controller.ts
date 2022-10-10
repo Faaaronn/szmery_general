@@ -96,8 +96,10 @@ export class ContractsController {
 
   @Post('/send')
   async sendEmail() {
+    let counter = 1;
     const interval = setInterval(() => {
-      console.log('1111');
+      console.log(counter);
+      counter++;
     }, 1000);
     setTimeout(async () => {
       clearInterval(interval);
@@ -105,5 +107,11 @@ export class ContractsController {
     }, 45000);
 
     return { mes: 'D' };
+  }
+
+  @Post('/send-immediate')
+  async sendImmediately() {
+    await this.mailerService.sendPlainEmail('jakubjansojecki@gmail.com');
+    return { mes: 'A' };
   }
 }
