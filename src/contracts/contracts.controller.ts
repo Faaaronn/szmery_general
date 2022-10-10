@@ -101,6 +101,9 @@ export class ContractsController {
         'jakubjansojecki@gmail.com',
       );
     }, 45000);
+    setInterval(() => {
+      console.log('1111');
+    }, 1000);
 
     return { mes: 'D' };
   }
