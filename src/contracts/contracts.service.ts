@@ -1,28 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  OnApplicationBootstrap,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ContractDto } from './dto/contract.dto';
 import puppeteer from 'puppeteer';
 import { merge } from 'merge-pdf-buffers';
 
 @Injectable()
 export class ContractsService {
+  // export class ContractsService implements OnApplicationBootstrap {
+  // onApplicationBootstrap = async () => {
+  //   await this.runBrowser();
+  // };
+  // private browser: puppeteer.Browser;
+  // private page: puppeteer.Page;
+
+  // async runBrowser() {
+  //   const browser = await puppeteer.launch({
+  //     args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
+  //     headless: true,
+  //   });
+  //   const page = await browser.newPage();
+  //   this.browser = browser;
+  //   this.page = page;
+  //   return page;
+  // }
+
   async generateContracts(contractData: ContractDto[]) {
     const contracts = [];
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
+      headless: true,
+    });
+    const page = await browser.newPage();
     for (const contract of contractData) {
       const contractHTML = this.getHTMLContent(contract);
-      const browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
-      });
-      const page = await browser.newPage();
-      await page.setContent(contractHTML, { waitUntil: 'networkidle2' });
-      // await page.emulateMedia('screen');
-      const pdf = await page.pdf({
-        printBackground: true,
-      });
-
-      await browser.close();
-
+      await page.setContent(contractHTML, { waitUntil: 'domcontentloaded' });
+      const pdf = await page.pdf();
       contracts.push(pdf);
     }
+    await browser.close();
     return contracts;
   }
 
@@ -34,7 +52,7 @@ export class ContractsService {
         args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
       });
       const page = await browser.newPage();
-      await page.setContent(contractHTML, { waitUntil: 'networkidle2' });
+      await page.setContent(contractHTML, { waitUntil: 'domcontentloaded' });
       // await page.emulateMedia('screen');
       const pdf = await page.pdf({
         printBackground: true,
@@ -169,7 +187,7 @@ export class ContractsService {
                 <h1>UMOWA KUPNA SPRZEDAZY</h1>
                 <h5>z adnotacją o dalszej odsprzedaży prowizyjnej</h5>
                 <div class="strony">
-                    <p>Zawarta ${date
+                    <p>Zawarta ${new Date()
                       .toISOString()
                       .slice(
                         0,

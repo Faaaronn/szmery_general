@@ -1,5 +1,5 @@
 export class ContractDto {
-  date: Date;
+  date?: Date;
   name: string;
   street: string;
   city: string;
