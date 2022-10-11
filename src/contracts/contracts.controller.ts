@@ -53,7 +53,7 @@ export class ContractsController {
     );
     const emailResult = await this.mailerService.sendMessage(
       process.env.TEAM_EMAIL,
-      'APLUG-umowy-ks.pdf',
+      'APLUG-umowy-ks.zip',
       zippedContracts,
     );
 
@@ -75,13 +75,13 @@ export class ContractsController {
   }
 
   @Post('/generate')
-  async mergePDFs(@Res() res: Response, @Body() contractData: any) {
+  async mergePDFs(@Res() res: Response, @Body() contractData: ContractDto[]) {
     res.send({
       message:
         'Rozpoczynam generację pdfa. W ciągu kilku minut powinieneś otrzymać go na maila.',
     });
     const contractArray = await this.contractsService.generateContracts(
-      JSON.parse(contractData),
+      contractData,
     );
     const contracts = await this.contractsService.mergeContracts(contractArray);
 
