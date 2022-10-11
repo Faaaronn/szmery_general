@@ -25,7 +25,7 @@ export class ContractsController {
     res.set({
       // pdf
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename=aplugks.pdf`,
+      'Content-Disposition': `attachment; filename=${contractArray[0].uid}.pdf`,
       'Content-Length': contracts.length,
       'Access-Control-Expose-Headers': 'Content-Disposition',
       'Cache-Control': 'no-cache, no-store, must-revalidate',
