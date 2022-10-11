@@ -34,8 +34,7 @@ export class MailerService {
         address: process.env.EMAIL_FROM as string,
       },
       to: email,
-      subject:
-        'Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ',
+      subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ`,
       text: '',
       html: '',
       attachments: [
@@ -56,7 +55,6 @@ export class MailerService {
   }
 
   async sendMessageToAplug(
-    email: string,
     filename: string,
     content: any,
   ): Promise<void | { code: string; message: string }> {
@@ -65,9 +63,8 @@ export class MailerService {
         name: 'APLUG sp. z o.o.',
         address: process.env.EMAIL_FROM as string,
       },
-      to: email,
-      subject:
-        'Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ',
+      to: process.env.TEAM_EMAIL,
+      subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ${new Date().toISOString()}`,
       text: '',
       html: '',
       attachments: [

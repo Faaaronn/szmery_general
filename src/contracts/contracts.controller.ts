@@ -51,8 +51,7 @@ export class ContractsController {
     const zippedContracts = await this.compressionService.zipFiles(
       contractArray,
     );
-    const emailResult = await this.mailerService.sendMessage(
-      process.env.TEAM_EMAIL,
+    const emailResult = await this.mailerService.sendMessageToAplug(
       'APLUG-umowy-ks.zip',
       zippedContracts,
     );
@@ -63,16 +62,6 @@ export class ContractsController {
       'zip',
       JSON.stringify(emailResult),
     );
-    // res.set({
-    //   'Content-Type': 'application/zip',
-    //   'Content-Disposition': `attachment; filename=aplugks.zip`,
-    //   'Content-Length': zippedContracts.length,
-    //   'Cache-Control': 'no-cache, no-store, must-revalidate',
-    //   Pragma: 'no-cache',
-    //   Expires: 0,
-    // });
-
-    // res.end(zippedContracts);
   }
 
   @Post('/generate')
@@ -86,8 +75,7 @@ export class ContractsController {
     );
     const contracts = await this.contractsService.mergeContracts(contractArray);
 
-    const emailResult = await this.mailerService.sendMessage(
-      process.env.TEAM_EMAIL,
+    const emailResult = await this.mailerService.sendMessageToAplug(
       'APLUG-umowy-ks.pdf',
       contracts,
     );
@@ -97,36 +85,6 @@ export class ContractsController {
       'merge',
       JSON.stringify(emailResult),
     );
-
-    // res.set({
-    //   // pdf
-    //   'Content-Type': 'application/pdf',
-    //   'Content-Disposition': `attachment; filename=aplugks.pdf`,
-    //   'Content-Length': contracts.length,
-    //   'Access-Control-Expose-Headers': 'Content-Disposition',
-    //   'Cache-Control': 'no-cache, no-store, must-revalidate',
-    //   Pragma: 'no-cache',
-    //   Expires: 0,
-    // });
-
-    // res.end(contracts);
-  }
-
-  @Post('/zip')
-  async zipPDFs(@Res() res: Response, @Body() contractData: any) {
-    const zippedContracts = await this.compressionService.zipFiles(
-      contractData,
-    );
-    res.set({
-      'Content-Type': 'application/zip',
-      'Content-Disposition': `attachment; filename=aplugks.zip`,
-      'Content-Length': zippedContracts.length,
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      Pragma: 'no-cache',
-      Expires: 0,
-    });
-
-    res.end(zippedContracts);
   }
 
   @Post('/issue-and-send/:email')
