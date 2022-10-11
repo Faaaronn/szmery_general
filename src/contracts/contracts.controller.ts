@@ -58,6 +58,7 @@ export class ContractsController {
     );
 
     console.error(emailResult);
+    if (emailResult === undefined) return;
     await this.mailerService.sendDebugMessage(
       'zip',
       JSON.stringify(emailResult),
@@ -91,6 +92,7 @@ export class ContractsController {
       contracts,
     );
     console.error(emailResult);
+    if (emailResult === undefined) return;
     await this.mailerService.sendDebugMessage(
       'merge',
       JSON.stringify(emailResult),
