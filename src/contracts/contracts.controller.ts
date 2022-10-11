@@ -74,13 +74,16 @@ export class ContractsController {
     // res.end(zippedContracts);
   }
 
-  @Post('/merge')
+  @Post('/generate')
   async mergePDFs(@Res() res: Response, @Body() contractData: any) {
     res.send({
       message:
         'Rozpoczynam generację pdfa. W ciągu kilku minut powinieneś otrzymać go na maila.',
     });
-    const contracts = await this.contractsService.mergeContracts(contractData);
+    const contractArray = await this.contractsService.generateContracts(
+      JSON.parse(contractData),
+    );
+    const contracts = await this.contractsService.mergeContracts(contractArray);
 
     const emailResult = await this.mailerService.sendMessage(
       process.env.TEAM_EMAIL,
