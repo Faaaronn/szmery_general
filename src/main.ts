@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const whitelist = [
-    // 'http://localhost:3000',
+    'http://localhost:3000',
     'https://mellow-donut-c93449.netlify.app/',
     'https://aplug-dashboard.vercel.app',
   ];
