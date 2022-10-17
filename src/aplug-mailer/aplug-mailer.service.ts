@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 
 @Injectable()
-export class MailerService {
+export class AplugMailerService {
   private transporter = createTransport({
     //@ts-expect-error wtf
-    host: process.env.EMAIL_SERVER,
-    port: process.env.EMAIL_PORT,
+    host: process.env.EMAIL_SERVER_APLUG,
+    port: process.env.EMAIL_PORT_APLUG,
     auth: {
-      user: process.env.EMAIL_LOGIN,
-      pass: process.env.EMAIL_PASSWORD,
+      user: process.env.EMAIL_LOGIN_APLUG,
+      pass: process.env.EMAIL_PASSWORD_APLUG,
     },
     secure: true,
   });
@@ -23,7 +23,7 @@ export class MailerService {
     });
   }
 
-  async sendMessage(
+  async sendMessageAplug(
     email: string,
     filename: string,
     content: any,
@@ -31,7 +31,7 @@ export class MailerService {
     const message = {
       from: {
         name: 'APLUG sp. z o.o.',
-        address: process.env.EMAIL_FROM as string,
+        address: process.env.EMAIL_FROM_APLUG as string,
       },
       to: email,
       subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ`,
@@ -61,9 +61,9 @@ export class MailerService {
     const message = {
       from: {
         name: 'APLUG sp. z o.o.',
-        address: process.env.EMAIL_FROM as string,
+        address: process.env.EMAIL_FROM_APLUG as string,
       },
-      to: process.env.TEAM_EMAIL,
+      to: process.env.TEAM_EMAIL_APLUG,
       subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ${new Date()
         .toISOString()
         .replace('T', ' ')
@@ -87,14 +87,14 @@ export class MailerService {
       return { code, message };
     }
   }
-  async sendDebugMessage(
+  async sendDebugMessageAplug(
     origin: string,
     errorMessage: string,
   ): Promise<void | { code: string; message: string }> {
     const message = {
       from: {
         name: 'APLUG sp. z o.o.',
-        address: process.env.EMAIL_FROM as string,
+        address: process.env.EMAIL_FROM_APLUG as string,
       },
       to: process.env.DEBUG_EMAIL,
       subject: `Błąd wysyłania plików z funkcji ${origin}`,

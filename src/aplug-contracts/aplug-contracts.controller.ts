@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { CompressionService } from 'src/compression/compression.service';
-import { MailerService } from 'src/mailer/mailer.service';
+import { AplugMailerService } from 'src/aplug-mailer/aplug-mailer.service';
 import { AplugContractsService } from './aplug-contracts.service';
 import { AplugContractDto } from './dto/aplug-contract.dto';
 
@@ -10,7 +10,7 @@ export class AplugContractsController {
   constructor(
     private readonly contractsService: AplugContractsService,
     private readonly compressionService: CompressionService,
-    private readonly mailerService: MailerService,
+    private readonly mailerService: AplugMailerService,
   ) {}
 
   @Post()
@@ -58,7 +58,7 @@ export class AplugContractsController {
 
     console.error(emailResult);
     if (emailResult === undefined) return;
-    await this.mailerService.sendDebugMessage(
+    await this.mailerService.sendDebugMessageAplug(
       'zip',
       JSON.stringify(emailResult),
     );
@@ -84,7 +84,7 @@ export class AplugContractsController {
     );
     console.error(emailResult);
     if (emailResult === undefined) return;
-    await this.mailerService.sendDebugMessage(
+    await this.mailerService.sendDebugMessageAplug(
       'merge',
       JSON.stringify(emailResult),
     );
@@ -105,14 +105,14 @@ export class AplugContractsController {
     );
     const contracts = await this.contractsService.mergeContracts(contractArray);
 
-    const emailResult = await this.mailerService.sendMessage(
+    const emailResult = await this.mailerService.sendMessageAplug(
       email.email,
       'APLUG-umowy-ks.pdf',
       contracts,
     );
     console.error(emailResult);
     if (emailResult === undefined) return;
-    await this.mailerService.sendDebugMessage(
+    await this.mailerService.sendDebugMessageAplug(
       'merge',
       JSON.stringify(emailResult),
     );
