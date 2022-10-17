@@ -7,6 +7,8 @@ async function bootstrap() {
     'http://localhost:3000',
     'https://mellow-donut-c93449.netlify.app/',
     'https://aplug-dashboard.vercel.app',
+    'http://sneakers-stealz.szmery.io',
+    'https://sneakers-stealz.szmery.io',
   ];
 
   const app = await NestFactory.create(AppModule);
