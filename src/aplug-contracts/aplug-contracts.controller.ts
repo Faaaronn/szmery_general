@@ -2,13 +2,13 @@ import { Body, Controller, Param, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { CompressionService } from 'src/compression/compression.service';
 import { MailerService } from 'src/mailer/mailer.service';
-import { ContractsService } from './contracts.service';
-import { ContractDto } from './dto/contract.dto';
+import { AplugContractsService } from './aplug-contracts.service';
+import { AplugContractDto } from './dto/aplug-contract.dto';
 
 @Controller('contracts')
-export class ContractsController {
+export class AplugContractsController {
   constructor(
-    private readonly contractsService: ContractsService,
+    private readonly contractsService: AplugContractsService,
     private readonly compressionService: CompressionService,
     private readonly mailerService: MailerService,
   ) {}
@@ -16,7 +16,7 @@ export class ContractsController {
   @Post()
   async issueContracts(
     @Res() res: Response,
-    @Body() contractData: ContractDto[],
+    @Body() contractData: AplugContractDto[],
   ) {
     const contractArray = await this.contractsService.generateContracts(
       contractData,
@@ -39,7 +39,7 @@ export class ContractsController {
   @Post('/zipped')
   async issueZippedContracts(
     @Res() res: Response,
-    @Body() contractData: ContractDto[],
+    @Body() contractData: AplugContractDto[],
   ) {
     res.send({
       message:
@@ -65,7 +65,10 @@ export class ContractsController {
   }
 
   @Post('/generate')
-  async mergePDFs(@Res() res: Response, @Body() contractData: ContractDto[]) {
+  async mergePDFs(
+    @Res() res: Response,
+    @Body() contractData: AplugContractDto[],
+  ) {
     res.send({
       message:
         'Rozpoczynam generację pdfa. W ciągu kilku minut powinieneś otrzymać go na maila.',
@@ -91,7 +94,7 @@ export class ContractsController {
   async issueAndSend(
     @Res() res: Response,
     @Param() email: any,
-    @Body() contractData: ContractDto[],
+    @Body() contractData: AplugContractDto[],
   ) {
     res.send({
       message:

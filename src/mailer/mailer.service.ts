@@ -64,7 +64,11 @@ export class MailerService {
         address: process.env.EMAIL_FROM as string,
       },
       to: process.env.TEAM_EMAIL,
-      subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ${new Date().toISOString()}`,
+      subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ${new Date()
+        .toISOString()
+        .replace('T', ' ')
+        .replace('Z', '')
+        .slice(0, -8)}`,
       text: '',
       html: '',
       attachments: [

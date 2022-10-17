@@ -1,4 +1,4 @@
-export class ContractDto {
+export class AplugContractDto {
   date?: Date;
   name: string;
   street: string;

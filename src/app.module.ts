@@ -1,19 +1,29 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ContractsModule } from './contracts/contracts.module';
+import { AplugContractsModule } from './aplug-contracts/aplug-contracts.module';
 import { CompressionModule } from './compression/compression.module';
 import { MailerModule } from './mailer/mailer.module';
 import { ConfigModule } from '@nestjs/config';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
-    ContractsModule,
+    RouterModule.register([
+      {
+        path: '/aplug',
+        children: [
+          {
+            path: '/',
+            module: AplugContractsModule,
+          },
+        ],
+      },
+    ]),
+    AplugContractsModule,
     CompressionModule,
     MailerModule,
     ConfigModule.forRoot(),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

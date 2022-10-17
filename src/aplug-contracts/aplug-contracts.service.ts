@@ -1,14 +1,10 @@
-import {
-  Injectable,
-  OnApplicationBootstrap,
-  OnModuleInit,
-} from '@nestjs/common';
-import { ContractDto } from './dto/contract.dto';
+import { Injectable } from '@nestjs/common';
+import { AplugContractDto } from './dto/aplug-contract.dto';
 import puppeteer from 'puppeteer';
 import { merge } from 'merge-pdf-buffers';
 
 @Injectable()
-export class ContractsService {
+export class AplugContractsService {
   // export class ContractsService implements OnApplicationBootstrap {
   // onApplicationBootstrap = async () => {
   //   await this.runBrowser();
@@ -27,7 +23,7 @@ export class ContractsService {
   //   return page;
   // }
 
-  async generateContracts(contractData: ContractDto[]) {
+  async generateContracts(contractData: AplugContractDto[]) {
     const contracts = [];
     const browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'], // SEE BELOW WARNING!!!
@@ -44,7 +40,7 @@ export class ContractsService {
     return contracts;
   }
 
-  async generateContractsForZip(contractData: ContractDto[]) {
+  async generateContractsForZip(contractData: AplugContractDto[]) {
     const contracts = [];
     for (const contract of contractData) {
       const contractHTML = this.getHTMLContent(contract);
@@ -70,7 +66,7 @@ export class ContractsService {
     return contracts;
   }
 
-  private getHTMLContent = (contractDetails: ContractDto) => {
+  private getHTMLContent = (contractDetails: AplugContractDto) => {
     const {
       date,
       name,
