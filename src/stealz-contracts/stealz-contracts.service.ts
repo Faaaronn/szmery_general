@@ -87,7 +87,7 @@ export class StealzContractsService {
             }
             body {
               margin:0px!important;
-              font-size:17px;
+              font-size:18px;
               padding-left:5%;
               padding-right:5%;
             }
@@ -137,18 +137,19 @@ export class StealzContractsService {
                 Ja, niżej podpisany/a ${name} zamieszkały w ${address}
                 oświadczam, że:
               </p>
+              <br><br>
               <div>
                 W dniu ${date} sprzedałem/am
                 <b
                   >buty sportowe kolekcjonersie, z drugiej ręki, noszone przynajmniej
                   raz</b
                 >
-                firmie:<br />
+                firmie:<br /><br><br>
                 <p class="dane-firmowe">
                   Snekers Stealz Karol Dolata z siedzibą w Boleścin 49N, 58-100
                   Świdnica, nr NIP: 8842812139
                 </p>
-              </div>
+              </div><br><br><br>
               <div>
                 Cena, którą mi zapłacono za wyżej wymieniony produkt to ${price}.
               </div>

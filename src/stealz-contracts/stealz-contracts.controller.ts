@@ -107,7 +107,19 @@ export class StealzContractsController {
       email.email,
       contractArray,
     );
-    if (emailResult === undefined) return;
+    const uids = contractData.map((c) => c.uid).join(',');
+    const priceTotal = contractData
+      .map((c) => parseInt(c.price.split(' ')[0]))
+      .reduce((acc, c) => acc + c, 0);
+    const emailResult2 = await this.mailerService.sendMessageToStealz(
+      contractArray,
+      {
+        uid: uids,
+        sellerName: contractData[0].name,
+        price: `Łącznie ${priceTotal} PLN`,
+      },
+    );
+    if (emailResult === undefined && emailResult2 === undefined) return;
     await this.mailerService.sendDebugMessageStealz(
       'merge',
       JSON.stringify(emailResult),
