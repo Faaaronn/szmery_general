@@ -9,6 +9,7 @@ async function bootstrap() {
     'https://aplug-dashboard.vercel.app',
     'http://sneakers-stealz.szmery.io',
     'https://sneakers-stealz.szmery.io',
+    'https://aplug.szmery.io/',
   ];
 
   const app = await NestFactory.create(AppModule);
