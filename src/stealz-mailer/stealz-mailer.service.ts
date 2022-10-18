@@ -88,11 +88,19 @@ export class StealzMailerService {
   }
 
   async sendMessageToStealz(
-    filename: string,
-    content: any,
+    content: { filename: string; content: Buffer }[],
     details: { uid: string; sellerName: string; price: string },
   ): Promise<void | { code: string; message: string }> {
     const { uid, sellerName, price } = details;
+    const attachments = content.map(
+      (file: { filename: string; content: any }) => {
+        const attachmentObject = {
+          filename: file.filename,
+          content: Buffer.from(file.content, 'base64'),
+        };
+        return attachmentObject;
+      },
+    );
     const message = {
       from: {
         name: 'Sneakers Stealz',
@@ -100,19 +108,13 @@ export class StealzMailerService {
       },
       to: process.env.TEAM_EMAIL_STEALZ,
       subject: `KS ${uid} - ${sellerName}`,
-      text: `Umowa: nr ${uid} 
-            Od: ${sellerName}
-            Kwota: ${price} PLN`,
-      html: `Umowa: nr ${uid} 
-            Od: ${sellerName}
-            Kwota: ${price} PLN`,
-      attachments: [
-        {
-          filename: filename,
-          // content: content,
-          content: Buffer.from(content, 'base64'),
-        },
-      ],
+      text: `Umowa: nr ${uid}\n
+            Od: ${sellerName}\n
+            Kwota: ${price}`,
+      html: `Umowa: nr ${uid} <br>
+            Od: ${sellerName}<br>
+            Kwota: ${price}`,
+      attachments: attachments,
     };
     try {
       await this.transporter.sendMail(message);
