@@ -57,6 +57,9 @@ export class AplugMailerService {
   async sendMessageToAplug(
     filename: string,
     content: any,
+    data: string,
+    dataHTML: string,
+    uids: string,
   ): Promise<void | { code: string; message: string }> {
     const message = {
       from: {
@@ -64,13 +67,13 @@ export class AplugMailerService {
         address: process.env.EMAIL_FROM_APLUG as string,
       },
       to: process.env.TEAM_EMAIL_APLUG,
-      subject: `Umowa Kupna Sprzedaży z APLUG SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ ${new Date()
+      subject: `${uids} ${new Date()
         .toISOString()
         .replace('T', ' ')
         .replace('Z', '')
-        .slice(0, -8)}`,
-      text: '',
-      html: '',
+        .slice(0, -7)}`,
+      text: data,
+      html: dataHTML,
       attachments: [
         {
           filename: filename,

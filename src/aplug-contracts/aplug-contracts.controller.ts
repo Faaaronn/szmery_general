@@ -51,9 +51,31 @@ export class AplugContractsController {
     const zippedContracts = await this.compressionService.zipFiles(
       contractArray,
     );
+
+    const data = contractData
+      .map((contract) => {
+        return `${contract.name} - ${contract.model} - ${contract.price} - ${contract.uid}`;
+      })
+      .join('\n');
+
+    const dataHTML = contractData
+      .map((contract) => {
+        return `${contract.name} - ${contract.model} - ${contract.price} - ${contract.uid}`;
+      })
+      .join('<br/>');
+
+    const uids = contractData
+      .map((contract) => {
+        return contract.uid;
+      })
+      .join(', ');
+
     const emailResult = await this.mailerService.sendMessageToAplug(
       'APLUG-umowy-ks.zip',
       zippedContracts,
+      data,
+      dataHTML,
+      uids,
     );
 
     console.error(emailResult);
@@ -78,9 +100,30 @@ export class AplugContractsController {
     );
     const contracts = await this.contractsService.mergeContracts(contractArray);
 
+    const data = contractData
+      .map((contract) => {
+        return `${contract.name} - ${contract.model} - ${contract.price} - ${contract.uid}`;
+      })
+      .join('\n');
+
+    const dataHTML = contractData
+      .map((contract) => {
+        return `${contract.name} - ${contract.model} - ${contract.price} - ${contract.uid}`;
+      })
+      .join('<br/>');
+
+    const uids = contractData
+      .map((contract) => {
+        return contract.uid;
+      })
+      .join(', ');
+
     const emailResult = await this.mailerService.sendMessageToAplug(
       'APLUG-umowy-ks.pdf',
       contracts,
+      data,
+      dataHTML,
+      uids,
     );
     console.error(emailResult);
     if (emailResult === undefined) return;
