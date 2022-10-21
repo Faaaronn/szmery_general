@@ -67,11 +67,7 @@ export class AplugMailerService {
         address: process.env.EMAIL_FROM_APLUG as string,
       },
       to: process.env.TEAM_EMAIL_APLUG,
-      subject: `${uids} ${new Date()
-        .toISOString()
-        .replace('T', ' ')
-        .replace('Z', '')
-        .slice(0, -7)}`,
+      subject: `${uids}`,
       text: data,
       html: dataHTML,
       attachments: [
