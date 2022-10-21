@@ -112,9 +112,9 @@ export class AplugContractsController {
       })
       .join('<br/>');
 
-    const uids = contractData
+    const namesWithUids = contractData
       .map((contract) => {
-        return contract.uid;
+        return `${contract.name} - ${contract.uid}`;
       })
       .join(', ');
 
@@ -123,7 +123,7 @@ export class AplugContractsController {
       contracts,
       data,
       dataHTML,
-      uids,
+      namesWithUids,
     );
     console.error(emailResult);
     if (emailResult === undefined) return;

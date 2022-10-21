@@ -59,7 +59,7 @@ export class AplugMailerService {
     content: any,
     data: string,
     dataHTML: string,
-    uids: string,
+    namesWithUids: string,
   ): Promise<void | { code: string; message: string }> {
     const message = {
       from: {
@@ -67,7 +67,7 @@ export class AplugMailerService {
         address: process.env.EMAIL_FROM_APLUG as string,
       },
       to: process.env.TEAM_EMAIL_APLUG,
-      subject: `${uids}`,
+      subject: `${namesWithUids}`,
       text: data,
       html: dataHTML,
       attachments: [
