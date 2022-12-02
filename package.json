@@ -31,6 +31,7 @@
     "body-parser": "^1.20.1",
     "merge-pdf-buffers": "^1.0.3",
     "nodemailer": "^6.8.0",
+    "pg-async": "^3.1.0",
     "puppeteer": "^18.2.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

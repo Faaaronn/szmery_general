@@ -183,7 +183,7 @@ export class AplugContractsService {
                 <h1>UMOWA KUPNA SPRZEDAZY</h1>
                 <h5>z adnotacją o dalszej odsprzedaży prowizyjnej</h5>
                 <div class="strony">
-                    <p>Zawarta ${new Date()
+                    <p>Zawarta ${new Date(date)
                       .toISOString()
                       .slice(
                         0,
